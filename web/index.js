@@ -6,13 +6,13 @@ console.log ("Language selected: " + (lang == 0 ? "ENG" : "RUS"));
 
 var language = 
 {
-	OFFLINE:  ["OFFLINE",  "¬€ Àﬁ◊≈Õ" ],
-	ONLINE:   ["ONLINE",   "¬ Àﬁ◊≈Õ"  ],
-	YES:      ["YES",      "ƒ¿"       ],
-	NO:       ["NO",       "Õ≈“"      ],
-	MB:       ["MB",       "Ã¡"       ],
-	MBS:      ["MB/s",     "Ã¡/Ò"     ],
-	COMPLETE: ["COMPLETE", "¬€œŒÀÕ≈ÕŒ"] 
+	OFFLINE:  ["OFFLINE",  "–í–´–ö–õ–Æ–ß–ï–ù" ],
+	ONLINE:   ["ONLINE",   "–í–ö–õ–Æ–ß–ï–ù"  ],
+	YES:      ["YES",      "–î–ê"       ],
+	NO:       ["NO",       "–ù–ï–¢"      ],
+	MB:       ["MB",       "–ú–ë"       ],
+	MBS:      ["MB/s",     "–ú–ë/—Å"     ],
+	COMPLETE: ["COMPLETE", "–ó–ê–í–ï–†–®–ï–ù–û"] 
 }
 
 function time (t)
@@ -138,7 +138,7 @@ function get_request ()
 					// ****************************************
 					if      (xhr.response.sync.average_speed_mbs < old_average_speed_mbs) document.getElementById("sync_average_speed_mbs").innerHTML += "<FONT COLOR ='red'> &#9660;</FONT>";
 					else if (xhr.response.sync.average_speed_mbs > old_average_speed_mbs) document.getElementById("sync_average_speed_mbs").innerHTML += "<FONT COLOR ='green'> &#9650;</FONT>";
-					old_average_speed_mbs = xhr.response.sync.current_speed_mbs;
+					old_average_speed_mbs = xhr.response.sync.average_speed_mbs;
 				}
 			}
 		}
