@@ -1,4 +1,4 @@
-# RAID-EMU
+# RAID-EMU v0.9
 
 == ENG ==
 
