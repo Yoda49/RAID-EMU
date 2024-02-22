@@ -1,0 +1,71 @@
+.flex {display: flex;justify-content: space-between;flex-wrap: wrap;}
+
+@font-face 
+{
+	font-family: font1; /* Гарнитура шрифта */
+    src: url(font1.ttf); /* Путь к файлу со шрифтом */
+}
+
+body
+{
+	position: relative;
+	background-color: #004550;
+	width: 98%;
+}
+
+.p_name
+{
+	font: bold 100% font1;
+	color: #CCEEEE;
+	width: 157px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.p_header
+{
+	font: bold 100% font1;
+	color: #CCEEEE;
+	display: inline-block;
+}
+
+.p_value
+{
+	font: bold 100% font1;
+	color: #778888;
+	display: inline-block;
+	width: 200px;
+	vertical-align: top;
+}
+
+.p_value2
+{
+	font: bold 100% font1;
+	color: #778888;
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
+}
+
+.p_value3
+{
+	font: bold 100% font1;
+	color: #CCEEEE;
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
+}
+
+.section
+{
+	box-shadow: 0px 0px 10px black;
+	position: relative;
+	left: 3%;
+	width: 88%;
+	right: 3%;
+	font: 100% verdana;
+	color: #FFFFFF;
+	background-color: #103540;
+	padding: 2%;
+	border-radius: 10px;
+}

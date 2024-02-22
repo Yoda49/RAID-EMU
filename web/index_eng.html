@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<HTML lang='ru'>
+
+<LINK REL="stylesheet" HREF="style.css">
+
+<HEAD>
+	<TITLE>RAID-EMU</TITLE>
+	<META NAME='viewport' CONTENT='width=device-width, initial-scale=1'>
+</HEAD>
+
+<BODY STYLE='position: relative; background-color: #004550; width: 98%;'>
+<DIV ID='header' STYLE='position: relative; display: flex; flex-wrap: wrap; top: 10px; left: 5%; width: 90%; right: 5%; font: bold 200% font1; color: #00A5B0'>RAID-EMU v0.1 [ENG]</DIV><BR>
+
+<DIV CLASS='section'>
+
+	<DIV CLASS='p_header' STYLE='font-size: 120%'><B>SOURCE POINT</B>&nbsp;&bull;&nbsp;<B ID='src_online'></B></DIV><HR>
+	
+	<DIV STYLE='width: max-content;'>
+	
+		<DIV CLASS='p_name'>TOTAL FILES:</DIV>
+		<DIV CLASS='p_value' ID = "src_files_count">0</DIV><BR>
+		
+		<DIV CLASS='p_name'>TOTAL FOLDERS:</DIV>
+		<DIV CLASS='p_value' ID = "src_folders_count">0</DIV><BR>
+		
+		<DIV CLASS='p_name'>TREE UPDATED:</DIV>
+		<DIV CLASS='p_value' ID = "src_tree_updated_flag">NO</DIV><BR>
+
+		<DIV CLASS='p_name'>ADDRESS:</DIV>
+		<DIV CLASS='p_value' ID = "src_address">...</DIV><BR>
+		
+	</DIV>
+</DIV><BR>
+
+<DIV CLASS='section'>
+
+	<DIV CLASS='p_header' STYLE='font-size: 120%'><B>DESTINATION POINT</B>&nbsp;&bull;&nbsp;<B ID='dst_online'></B></DIV><HR>
+
+	<DIV STYLE='width: max-content;'>
+		
+		<DIV CLASS='p_name'>TOTAL FILES:</DIV>
+		<DIV CLASS='p_value' ID = "dst_files_count">0</DIV><BR>
+		
+		<DIV CLASS='p_name'>TOTAL FOLDERS:</DIV>
+		<DIV CLASS='p_value' ID = "dst_folders_count">0</DIV><BR>
+		
+		<DIV CLASS='p_name'>TREE UPDATED:</DIV>
+		<DIV CLASS='p_value' ID = "dst_tree_updated_flag">NO</DIV><BR>
+
+		<DIV CLASS='p_name'>ADDRESS:</DIV>
+		<DIV CLASS='p_value' ID = "dst_address">...</DIV><BR>
+		
+	</DIV>
+</DIV><BR>
+
+<DIV CLASS='section'>
+	<DIV CLASS='p_header' STYLE='font-size: 120%' ID='dst_online'><B>SYNC SERVER</B>&nbsp;&bull;&nbsp;<B ID='server_online'></B></DIV><HR>
+	
+	<DIV STYLE='width: max-content;'>
+	
+		<DIV CLASS='p_name'>CURRENT SPEED:</DIV>
+		<DIV CLASS='p_value' ID = "sync_current_speed_mbs">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>AVERAGE SPEED:</DIV>
+		<DIV CLASS='p_value' ID = "sync_average_speed_mbs">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>DELETED FILES:</DIV>
+		<DIV CLASS='p_value' ID = "sync_deleted_files">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>DELETED FOLDERS:</DIV>
+		<DIV CLASS='p_value' ID = "sync_deleted_folders">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>NEW FILES:</DIV>
+		<DIV CLASS='p_value' ID = "sync_new_files">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>NEW FOLDERS:</DIV>
+		<DIV CLASS='p_value' ID = "sync_new_folders">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>FILES COPIED:</DIV>
+		<DIV CLASS='p_value' ID = "sync_files_copied">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>TIME PASSED:</DIV>
+		<DIV CLASS='p_value' ID = "sync_time_passed">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>TIME LEFT:</DIV>
+		<DIV CLASS='p_value' ID = "sync_time_left">---</DIV><BR>
+		
+		<DIV CLASS='p_name'>TOTAL PROGRESS:</DIV>
+		<DIV CLASS='p_value' ID = "sync_total_progress">---</DIV>
+	</DIV><HR>
+	<DIV CLASS='p_value2' ID = "sync_current_file_name">SYNC NOT STARTED</DIV><BR>
+	<DIV CLASS='p_value3' ID = "sync_current_file_status"></DIV>
+	
+</DIV><BR>
+
+
+</BODY>
+
+<SCRIPT>var lang = 0;</SCRIPT>
+<SCRIPT SRC="index.js" TYPE="text/javascript"></SCRIPT>
+</HTML>
