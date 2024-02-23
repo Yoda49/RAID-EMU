@@ -12,8 +12,9 @@ console.log("| ####   #####   #  #   #  ##  #####  #  #  #  #   # |");
 console.log("| #  #   #   #   #  #   #      #      #     #  #   # |");
 console.log("| #   #  #   #   #  ####       #####  #     #   #### |");
 console.log("|                                                    |");
-console.log("| Version: 0.9                                       |");
+console.log("| Version: 1.0                                       |");
 console.log("| Author: Yurevich Pavel                             |");
+console.log("| https://github.com/Yoda49/RAID-EMU/                |");
 console.log(" ====================================================\n\033[37m");
 
 var recycler_folder_list = {};
@@ -49,7 +50,6 @@ var sync =
 
 var src = 
 {
-	disc:                "", 
 	address:             "",
 	online:               0,
 	files_count:          0,
@@ -59,10 +59,8 @@ var src =
 };
 
 var dst = 
-{
-	disc:                "",   
+{ 
 	address:             "",
-	recycler:            "",
 	online:               0,
 	files_count:          0,
 	folders_count:        0,
@@ -91,7 +89,7 @@ var options =
 // **************************************************************************************************************************************************************
 try
 {
-	temp = "" + fs.readFileSync ("raid-emu.cfg");
+	temp = "" + fs.readFileSync (".\\raid-emu.cfg");
 	temp = temp.split('\n');
 	
 	options.source_path         = (temp[0]).split("=")[1].trim();
@@ -251,7 +249,7 @@ if (options.web_interface == "true")
 }
 else
 {
-	console.log ("WEB interface -> off");
+	console.log ("WEB interface -> OFF");
 }
 // **************************************************************************************************************************************************************
 // CHECK SOURCE FOLDER
@@ -261,12 +259,12 @@ if (process.argv[2] != undefined) src.address = process.argv[2]; else src.addres
 if (fs.existsSync(src.address))
 {
 	console.log ("SRC folder    -> \033[36m" + src.address + "\033[37m");
-	src.disc = (src.address).split(':')[0];
 	src.online = true;
 }
 else
 {
-	console.log ("\033[31mSRC folder    -> does not exist!\033[37m");
+	src.online = false;
+	console.log ("\033[31mSRC folder    -> does not exist!\033[37m " + src.address);
 	process.exit(1);
 }
 
@@ -279,22 +277,11 @@ if (fs.existsSync(dst.address))
 {
 	console.log ("DST folder    -> \033[36m" + dst.address + "\033[37m");
 	dst.online = true;
-	dst.disc = (dst.address).split(':')[0];
-	dst.recycler = dst.disc + ":\\$RECYCLE.BIN\\";
-	
-	if (fs.existsSync(dst.recycler))
-	{
-		console.log("DST folder    -> recycle.bin already exists");
-	}
-	else
-	{
-		console.log("DST folder    -> make recycle.bin");
-		fs.mkdirSync (dst.recycler);
-	}
 }
 else
 {
-	console.log ("\033[31mDST folder -> does not exist!\033[37m");
+	dst.online = false;
+	console.log ("\033[31mDST folder   -> does not exist!\033[37m " + dst.address);
 	process.exit(1);
 }
 
@@ -317,8 +304,6 @@ async function SRC_make_tree_recursive (address, tree, level)
 			
 			for (let x = 0; x < tmp.length; x++)
 			{
-				if (tmp[x] == "$RECYCLE.BIN") continue;
-				
 				stats = await fsp.stat(address + "\\" + tmp[x]);
 				
 				tree[tmp[x]] = {};
@@ -363,7 +348,7 @@ async function DST_make_tree_recursive (address, tree, level)
 			
 			for (let x = 0; x < tmp.length; x++)
 			{
-				if (tmp[x] == "$RECYCLE.BIN") continue;
+				if (tmp[x] == "$TEMP$") continue;
 				
 				stats = await fsp.stat(address + "\\" + tmp[x]);
 				
@@ -559,7 +544,7 @@ async function SYNC_delete_old_recursive (dst_address, dst_tree, level)
 						}
 						else // move file to recycler
 						{
-							await fsp.rename (dst_address + "\\" + key, dst.recycler + key);
+							await fsp.rename (dst_address + "\\" + key, dst.address + "\\$TEMP$\\" + key);
 							recycler_folder_list[key] = {};
 							recycler_folder_list[key].size = dst_tree[key].size;
 						}
@@ -638,7 +623,7 @@ async function SYNC_create_new_recursive (dst_address, dst_tree, src_address, le
 						if (recycler_folder_list[key] != undefined && recycler_folder_list[key].size == dst_tree[key].size)
 						{
 							if (options.console_stage5_show == "true") process.stdout.write ("MOVE " + size(dst_tree[key].size) + " [" + src_address + "\\" + key + "] ... ");
-							await fsp.rename (dst.recycler + key, dst_address + "\\" + key);
+							await fsp.rename (dst.address + "\\$TEMP$\\" + key, dst_address + "\\" + key);
 							recycler_folder_list[key] = undefined; // clear file name in temp (recycler) folder
 						}
 						// IF FILE NOT EXISTS IN TMP FOLDER -> COPY FROM SRC
@@ -693,14 +678,15 @@ async function clear_tmp_folder_list ()
 		{
 			let stats;
 			
-			recycler_folder_list = await fsp.readdir (dst.recycler);
+			recycler_folder_list = await fsp.readdir (dst.address + "\\$TEMP$");
 			
 			for (let x = 0; x < recycler_folder_list.length; x++)
 			{
-				stats = await fsp.stat(dst.recycler + recycler_folder_list[x]);
+				stats = await fsp.stat(dst.address + "\\$TEMP$\\" + recycler_folder_list[x]);
 				
-				if (stats.isFile() == true) await fsp.unlink (dst.recycler + recycler_folder_list[x]);
+				if (stats.isFile() == true) await fsp.unlink (dst.address + "\\$TEMP$\\" + recycler_folder_list[x]);
 			}
+			
 			resolve ("OK");
 		}
 		catch (err)
@@ -810,6 +796,17 @@ async function sequence ()
 	sync.passed_time           = 0;
 	sync.status                = "RUNNING";
 	
+	// **************************
+	try
+	{
+		if (fs.existsSync(dst.address + "\\$TEMP$") === false) fs.mkdirSync (dst.address + "\\$TEMP$");
+	}
+	catch (err)
+	{
+		console.log ("\n\033[31m>> ERROR -> Can`t create temp folder!\033[37m\n" + err);
+		return;
+	}
+	
 	
 	// **************************
 	try
@@ -818,8 +815,7 @@ async function sequence ()
 	}
 	catch (err)
 	{
-		console.log ("TMP FOLDER ERROR!");
-		console.log (err);
+		console.log ("\n\033[31m>> ERROR -> Can`t clear temp folder!\033[37m\n" + err);
 		return;
 	}
 	
@@ -836,7 +832,7 @@ async function sequence ()
 	}
 	catch (err)
 	{
-		console.log ("\n\033[31mERROR!\033[37m\n" + err);
+		console.log ("\n\033[31m>> ERROR!\033[37m\n" + err);
 		src.online = 0;
 		return;
 	}
@@ -857,7 +853,7 @@ async function sequence ()
 	}
 	catch (err)
 	{
-		console.log ("\n\033[31mERROR!\033[37m\n" + err);
+		console.log ("\n\033[31m>> ERROR!\033[37m\n" + err);
 		dst.online = 0;
 		return;
 	}
@@ -893,7 +889,7 @@ async function sequence ()
 	}
 	catch (err)
 	{
-		console.log ("\n\033[31mERROR!\033[37m\n" + err);
+		console.log ("\n\033[31m>> ERROR!\033[37m\n" + err);
 		return;
 	}
 
@@ -910,11 +906,11 @@ async function sequence ()
 	{
 		await SYNC_create_new_recursive (dst.address, dst.tree, src.address, 0);
 		console.log ("\n\033[36m>> Files: " + sync.new_files + "\n>> Dirs:  " + sync.new_folders + "\n\n\033[32m>> Sync complete in " + Math.floor(sync.passed_time) + " sec.");
-		console.log (">> Next sync in " + sync.next_sync_in + " sec.\033[37m");
+		if (options.close_after_sync == "false") console.log (">> Next sync in " + sync.next_sync_in + " sec.\033[37m");
 	}
 	catch (err)
 	{
-		console.log ("\n\033[31mERROR!\033[37m\n" + err);
+		console.log ("\n\033[31m>> ERROR!\033[37m\n" + err);
 		return;
 	}
 	
@@ -927,13 +923,18 @@ async function sequence ()
 	}
 	catch (err)
 	{
-		console.log ("\n\033[31mERROR!\033[37m\n" + err);
+		console.log ("\n\033[31m>> ERROR!\033[37m\n" + err);
 		return;
 	}
 	
 	sync.status = "COMPLETE";
 	
-	if (options.close_after_sync == "true") process.exit(0);
+	if (options.close_after_sync == "true")
+	{
+		fs.rmdirSync (dst.address + "\\$TEMP$\\");
+		console.log (">> $TEMP$ successfully deleted!");
+		process.exit(0);
+	}
 }
   
 
