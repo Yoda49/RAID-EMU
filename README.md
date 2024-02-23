@@ -9,7 +9,8 @@ If launch parameters are specified, they override the adresses specified in the 
 
 The script creates two virtual trees (STAGE 1 & STAGE 2) and then compares them (STAGE 3). Next, it deletes irrelevant (outdated or deleted from source) files (STAGE 4) and then copies new ones (STAGE 5).
 
-**The script requires administrator rights to work properly.**
+> [!NOTE]
+> The script requires administrator rights to work properly.**
 
 
 ## ==RUS==
