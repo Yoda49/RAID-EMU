@@ -1,4 +1,4 @@
-var old_current_speed_mbs = 0;
+﻿var old_current_speed_mbs = 0;
 var old_average_speed_mbs = 0;
 var id;
 
@@ -12,7 +12,7 @@ var language =
 	NO:       ["NO",       "НЕТ"      ],
 	MB:       ["MB",       "МБ"       ],
 	MBS:      ["MB/s",     "МБ/с"     ],
-	COMPLETE: ["COMPLETE", "ЗАВЕРШЕНО"] 
+	COMPLETE: ["COMPLETE", "ВЫПОЛНЕНО"] 
 }
 
 function time (t)
