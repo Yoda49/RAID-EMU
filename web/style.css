@@ -1,5 +1,18 @@
 ﻿.flex {display: flex;justify-content: space-between;flex-wrap: wrap;}
 
+#header
+{
+	position: relative;
+	display: flex; 
+	flex-wrap: wrap;
+	top: 10px;
+	left: 5%;
+	width: 90%;
+	right: 5%;
+	font: bold 150% font1;
+	color: #00A5B0
+}
+
 @font-face 
 {
 	font-family: font1; /* Гарнитура шрифта */
@@ -17,7 +30,7 @@ body
 {
 	font: bold 100% font1;
 	color: #CCEEEE;
-	width: 175px;
+	width: 173px;
 	display: inline-block;
 	vertical-align: top;
 }

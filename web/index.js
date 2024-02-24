@@ -6,13 +6,14 @@ console.log ("Language selected: " + (lang == 0 ? "ENG" : "RUS"));
 
 var language = 
 {
-	OFFLINE:  ["OFFLINE",  "ВЫКЛЮЧЕН" ],
-	ONLINE:   ["ONLINE",   "ВКЛЮЧЕН"  ],
-	YES:      ["YES",      "ДА"       ],
-	NO:       ["NO",       "НЕТ"      ],
-	MB:       ["MB",       "МБ"       ],
-	MBS:      ["MB/s",     "МБ/с"     ],
-	COMPLETE: ["COMPLETE", "ВЫПОЛНЕНО"] 
+	OFFLINE:   ["OFFLINE",      "ВЫКЛЮЧЕН"        ],
+	ONLINE:    ["ONLINE",       "ВКЛЮЧЕН"         ],
+	YES:       ["YES",          "ДА"              ],
+	NO:        ["NO",           "НЕТ"             ],
+	MB:        ["MB",           "МБ"              ],
+	MBS:       ["MB/s",         "МБ/с"            ],
+	COMPLETE:  ["COMPLETE",     "ВЫПОЛНЕНО"       ],
+	NEXT_SYNC: ["NEXT SYNC IN", "ОБНОВЛЕНИЕ ЧЕРЕЗ"]
 }
 
 function time (t)
@@ -106,9 +107,9 @@ function get_request ()
 					document.getElementById("sync_current_speed_mbs"    ).innerHTML = "---";
 					document.getElementById("sync_current_file_name"    ).innerHTML = language.COMPLETE[lang];
 					document.getElementById("sync_current_file_name"    ).style.color = "#00FF00";
-					document.getElementById("sync_current_file_status"  ).innerHTML = "NEXT SYNC IN " + time(xhr.response.sync.next_sync_in);
+					document.getElementById("sync_current_file_status"  ).innerHTML = language.NEXT_SYNC[lang] + " " + time(xhr.response.sync.next_sync_in);
 					document.getElementById("sync_current_speed_mbs"    ).innerHTML = "0 " + language.MBS[lang];
-					document.getElementById("sync_total_progress"       ).innerHTML = "0 %";
+					document.getElementById("sync_total_progress"       ).innerHTML = "100 %";
 					document.getElementById("sync_files_copied"         ).innerHTML = Math.floor((xhr.response.sync.files_size_total_new - xhr.response.sync.files_size_left) / 1024 / 1024) + " " + language.MB[lang];
 				}
 				else if (xhr.response.sync.status == "RUNNING")
